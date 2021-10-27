@@ -16,7 +16,16 @@ public:
     void setall();
     void set(int x,int y);
     short get(int x,int y);
+    int getsize();
     void setValue(int x, int y,short value);
+    uint8_t getr(int x, int y);
+    uint8_t getr(int i);
+    uint8_t getg(int x, int y);
+    uint8_t getg(int i);
+    uint8_t getb(int x, int y);
+    uint8_t getb(int i);
+    void setrgb(int x, int y, uint8_t nr, uint8_t ng, uint8_t nb);
+    void setrgb(int i, uint8_t nr, uint8_t ng, uint8_t nb);
     ~PixelArr();
 private:
     

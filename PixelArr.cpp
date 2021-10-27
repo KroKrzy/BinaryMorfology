@@ -33,10 +33,49 @@ short PixelArr::get(int x, int y)
 {
     return this->array[this->sizey*y+x].getValue();
 }
+int PixelArr::getsize()
+{
+    return this->size;
+}
 void PixelArr::setValue(int x, int y, short value)
 {
     this->array[this->sizey*y+x].setvalue(x,y,value);
 }
+uint8_t PixelArr::getr(int x, int y)
+{
+    return this->array[this->sizey*y+x].getr();
+}
+uint8_t PixelArr::getr(int i)
+{
+    return this->array[i].getr();
+}
+uint8_t PixelArr::getg(int x, int y)
+{
+    return this->array[this->sizey*y+x].getg();
+}
+uint8_t PixelArr::getg(int i)
+{
+    return this->array[i].getg();
+}
+uint8_t PixelArr::getb(int x, int y)
+{
+    return this->array[this->sizey*y+x].getb();
+}
+uint8_t PixelArr::getb(int i)
+{
+    return this->array[i].getb();
+}
+void PixelArr::setrgb(int x,int y, uint8_t nr, uint8_t ng, uint8_t nb)
+{
+    this->array[this->sizey*y+x].setrgb(x,y,nr,ng,nb);
+}
+void PixelArr::setrgb(int i, uint8_t nr, uint8_t ng, uint8_t nb)
+{
+    this->array[i].setrgb(i,nr,ng,nb);
+}
+
+
+
 
 PixelArr::~PixelArr()
 {

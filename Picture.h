@@ -4,15 +4,23 @@
 #include <SDL2/SDL_image.h>
 
 #include "RGBPixel.h"
+#include "PixelArr.h"
 
 using namespace std;
 
 class RGBPixel;
+class PixelArr;
 class Picture{
 public:
-    
+    Picture();
+    void loadPicture(char* path);
+    void monochrome();
+    int getw();
+    int geth();
+    ~Picture();
 private:
-    SDL_Surface surf;
+    SDL_Surface* surf;
+    PixelArr array;
 
     
 };
