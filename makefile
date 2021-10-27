@@ -14,6 +14,6 @@ all: $(EXEC)
 
 $(EXEC): $(OBJS) $(HDRS) makefile
 	$(CC) -o $@ $(OBJS) $(CFLAGS)
-claen:
+clean:
 	rm -f $(EXEC) $(OBJS)
-.PHONY: all clean
+.PHONY:	all clean
