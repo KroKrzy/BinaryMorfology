@@ -1,21 +1,38 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <cassert>
 
 #include "Singleton.h"
+#include "PixelArr.h"
 
 using namespace std;
+Singleton::Singleton(){}
 
-Singleton::Singleton(){};
-Singleton::Singleton(const Singleton&){};
-Singleton::~Singleton(){
-    SDL_FreeSurface(this->surface);
-}
-Singleton & Singleton::getInstance()
+Singleton* Singleton::instance_=nullptr;
+
+Singleton * Singleton::getInstance()
 {
-    static Singleton instance_;
+    if (!instance_)
+    {
+        instance_ = new Singleton;
+    }
     return instance_;
 }
+Singleton:: Singleton::~Singleton()
+{
+    delete [] this->array;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

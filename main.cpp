@@ -4,27 +4,30 @@
 #include <SDL2/SDL_image.h>
 
 #include "RGBPixel.h"
-#include "Picture.h"
 #include "PixelArr.h"
 #include "Singleton.h"
 
 using namespace std;
 
+
 int main(){
+
     cout<<1;
     if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER)!=0){
         cout<<"SDL Init error"<<endl;
         return 1;
     }
     cout<<2;
-    Picture* pic = new Picture();
+    PixelArr* pic = new PixelArr();
     cout<<3;
-    pic->loadPicture("test.png");
+    const char *test = "test.png";
+    pic->loadPicture((char*)test);
     cout<<4;
+    pic->setall();
     SDL_Window* win = SDL_CreateWindow( "test",
                                         SDL_WINDOWPOS_CENTERED,
                                         SDL_WINDOWPOS_CENTERED,
-                                        pic->getw(),pic->geth(),0);
+                                        pic->getW(),pic->getH(),0);
     
     if (!win)
     {
@@ -43,7 +46,7 @@ int main(){
         return 1;
     }
     
-    SDL_Texture* tex =SDL_CreateTextureFromSurface(rend, Singleton::getInstance().surface);
+    SDL_Texture* tex =SDL_CreateTextureFromSurface(rend, Singleton::getInstance()->sur);
     if (!tex){
         cout<<"Error creating texture"<<endl;
         SDL_DestroyRenderer(rend);

@@ -3,16 +3,21 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <cassert>
 
+#include "RGBPixel.h"
 #include "PixelArr.h"
+#include "Singleton.h"
 
+class RGBPixel;
 class Singleton{
-public:
-    static Singleton& getInstance();
-    SDL_Surface* surface;
 private:
+    static Singleton* instance_;
     Singleton();
-    Singleton(const Singleton&);
     ~Singleton();
+public:
+    static Singleton* getInstance();
+    RGBPixel *array;
+    SDL_Surface * sur;
 };
 #endif

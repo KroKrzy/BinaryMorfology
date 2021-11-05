@@ -26,12 +26,15 @@ public:
     uint8_t getb(int i);
     void setrgb(int x, int y, uint8_t nr, uint8_t ng, uint8_t nb);
     void setrgb(int i, uint8_t nr, uint8_t ng, uint8_t nb);
+    int getW();
+    int getH();
+    void loadPicture(char* path);
+    void monochrome();
     ~PixelArr();
 private:
     
     int size,sizex,sizey;
-    RGBPixel *array;
-    
+
     
     
 };

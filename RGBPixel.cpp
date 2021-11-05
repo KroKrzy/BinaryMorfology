@@ -5,6 +5,7 @@
 
 #include "RGBPixel.h"
 #include "Singleton.h"
+#include "PixelArr.h"
 
 using namespace std;
 
@@ -16,9 +17,9 @@ RGBPixel::RGBPixel(int x, int y)
 
 void RGBPixel::setpixelrgb(int x, int y)
 {
-    SDL_Surface* &sur=Singleton::getInstance().surface;
+    SDL_Surface* sur=Singleton::getInstance()->sur;
     uint32_t pixel = *((uint32_t *) sur->pixels + y * sur->w + x );
-    SDL_GetRGBA(pixel,sur->format,&this->r,&this->g,&this->b,&this->a);
+    SDL_GetRGBA(pixel,sur->format,&r,&g,&b,&a);
 }
 
 short RGBPixel::getValue()
@@ -28,7 +29,7 @@ short RGBPixel::getValue()
 
 void RGBPixel::setvalue(int x, int y, short value)
 {
-    SDL_Surface* &sur = Singleton::getInstance().surface;
+    SDL_Surface* sur=Singleton::getInstance()->sur;
     unsigned char *pixels = (unsigned char*)sur->pixels;
     unsigned char newVal;
     if ( value == 0 ){
@@ -83,7 +84,7 @@ uint8_t RGBPixel::getb()
 void RGBPixel::setr(uint8_t nr,int x, int y)
 {
     this->r=nr;
-    SDL_Surface* sur=Singleton::getInstance().surface;
+    SDL_Surface* sur=Singleton::getInstance()->sur;
     uint32_t rmask = sur->format->Rmask;
     uint8_t* pixels = (uint8_t*) sur->pixels;
     switch (rmask){
@@ -106,7 +107,7 @@ void RGBPixel::setr(uint8_t nr,int x, int y)
 void RGBPixel::setr(uint8_t nr,int i)
 {
     this->r=nr;
-    SDL_Surface* sur=Singleton::getInstance().surface;
+    SDL_Surface* sur=Singleton::getInstance()->sur;
     uint32_t rmask = sur->format->Rmask;
     uint8_t* pixels = (uint8_t*) sur->pixels;
     switch (rmask){
@@ -129,7 +130,7 @@ void RGBPixel::setr(uint8_t nr,int i)
 void RGBPixel::setg(uint8_t ng, int x, int y)
 {
     this->g=ng;
-    SDL_Surface* sur=Singleton::getInstance().surface;
+    SDL_Surface* sur=Singleton::getInstance()->sur;
     uint32_t gmask = sur->format->Gmask;
     uint8_t* pixels = (uint8_t*) sur->pixels;
     switch (gmask){
@@ -152,7 +153,7 @@ void RGBPixel::setg(uint8_t ng, int x, int y)
 void RGBPixel::setg(uint8_t ng, int i)
 {
     this->g=ng;
-    SDL_Surface* sur=Singleton::getInstance().surface;
+    SDL_Surface* sur=Singleton::getInstance()->sur;
     uint32_t gmask = sur->format->Gmask;
     uint8_t* pixels = (uint8_t*) sur->pixels;
     switch (gmask){
@@ -175,7 +176,7 @@ void RGBPixel::setg(uint8_t ng, int i)
 void RGBPixel::setb(uint8_t nb, int x, int y)
 {
     this->b=nb;
-    SDL_Surface* sur=Singleton::getInstance().surface;
+    SDL_Surface* sur=Singleton::getInstance()->sur;
     uint32_t bmask = sur->format->Bmask;
     uint8_t* pixels = (uint8_t*) sur->pixels;
     switch (bmask){
@@ -198,7 +199,7 @@ void RGBPixel::setb(uint8_t nb, int x, int y)
 void RGBPixel::setb(uint8_t nb, int i)
 {
     this->b=nb;
-    SDL_Surface* sur=Singleton::getInstance().surface;
+    SDL_Surface* sur=Singleton::getInstance()->sur;
     uint32_t bmask = sur->format->Bmask;
     uint8_t* pixels = (uint8_t*) sur->pixels;
     switch (bmask){
@@ -221,7 +222,7 @@ void RGBPixel::setb(uint8_t nb, int i)
 void RGBPixel::seta(uint8_t na, int x, int y)
 {
     this->a=na;
-    SDL_Surface* sur=Singleton::getInstance().surface;
+    SDL_Surface* sur=Singleton::getInstance()->sur;
     uint32_t amask = sur->format->Amask;
     uint8_t* pixels = (uint8_t*) sur->pixels;
     switch (amask){
@@ -244,7 +245,7 @@ void RGBPixel::seta(uint8_t na, int x, int y)
 void RGBPixel::seta(uint8_t na, int i)
 {
     this->a=na;
-    SDL_Surface* sur=Singleton::getInstance().surface;
+    SDL_Surface* sur=Singleton::getInstance()->sur;
     uint32_t amask = sur->format->Amask;
     uint8_t* pixels = (uint8_t*) sur->pixels;
     switch (amask){
