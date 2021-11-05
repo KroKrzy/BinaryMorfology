@@ -16,7 +16,7 @@ void PixelArr::setall()
     sizex=sin->sur->w;
     sizey=sin->sur->h;
     size=sizex*sizey;
-    sin->array=new RGBPixel[this->size];
+    array=new RGBPixel[size];
     for(int x=0;x<sizex;x++){
         for(int y = 0; y<sizey; y++){
             set(x,y);
@@ -25,11 +25,11 @@ void PixelArr::setall()
 };
 void PixelArr::set(int x, int y)
 {
-    Singleton::getInstance()->array[sizey*y+x].setpixelrgb(x,y);
+    array[sizey*y+x].setpixelrgb(x,y);
 }
 short PixelArr::get(int x, int y)
 {
-    return Singleton::getInstance()->array[sizey*y+x].getValue();
+    return array[sizey*y+x].getValue();
 }
 int PixelArr::getsize()
 {
@@ -37,39 +37,39 @@ int PixelArr::getsize()
 }
 void PixelArr::setValue(int x, int y, short value)
 {
-    Singleton::getInstance()->array[sizey*y+x].setvalue(x,y,value);
+    array[sizey*y+x].setvalue(x,y,value);
 }
 uint8_t PixelArr::getr(int x, int y)
 {
-    return Singleton::getInstance()->array[this->sizey*y+x].getr();
+    return array[this->sizey*y+x].getr();
 }
 uint8_t PixelArr::getr(int i)
 {
-    return Singleton::getInstance()->array[i].getr();
+    return array[i].getr();
 }
 uint8_t PixelArr::getg(int x, int y)
 {
-    return Singleton::getInstance()->array[sizey*y+x].getg();
+    return array[sizey*y+x].getg();
 }
 uint8_t PixelArr::getg(int i)
 {
-    return Singleton::getInstance()->array[i].getg();
+    return array[i].getg();
 }
 uint8_t PixelArr::getb(int x, int y)
 {
-    return Singleton::getInstance()->array[sizey*y+x].getb();
+    return array[sizey*y+x].getb();
 }
 uint8_t PixelArr::getb(int i)
 {
-    return Singleton::getInstance()->array[i].getb();
+    return array[i].getb();
 }
 void PixelArr::setrgb(int x,int y, uint8_t nr, uint8_t ng, uint8_t nb)
 {
-    Singleton::getInstance()->array[sizey*y+x].setrgb(x,y,nr,ng,nb);
+    array[sizey*y+x].setrgb(x,y,nr,ng,nb);
 }
 void PixelArr::setrgb(int i, uint8_t nr, uint8_t ng, uint8_t nb)
 {
-    Singleton::getInstance()->array[i].setrgb(i,nr,ng,nb);
+    array[i].setrgb(i,nr,ng,nb);
 }
 int PixelArr::getW()
 {
@@ -97,6 +97,12 @@ void PixelArr::monochrome()
         setrgb(i,newval,newval,newval);
     }
 }
+
+PixelArr::~PixelArr()
+{
+    delete [] array;
+}
+
 
 
 

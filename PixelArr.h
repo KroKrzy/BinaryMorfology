@@ -32,7 +32,7 @@ public:
     void monochrome();
     ~PixelArr();
 private:
-    
+    RGBPixel *array;
     int size,sizex,sizey;
 
     

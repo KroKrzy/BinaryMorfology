@@ -17,7 +17,6 @@ private:
     ~Singleton();
 public:
     static Singleton* getInstance();
-    RGBPixel *array;
     SDL_Surface * sur;
 };
 #endif

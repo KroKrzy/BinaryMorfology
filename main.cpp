@@ -12,22 +12,18 @@ using namespace std;
 
 int main(){
 
-    cout<<1;
     if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER)!=0){
         cout<<"SDL Init error"<<endl;
         return 1;
     }
-    cout<<2;
-    PixelArr* pic = new PixelArr();
-    cout<<3;
+    PixelArr pic;
     const char *test = "test.png";
-    pic->loadPicture((char*)test);
-    cout<<4;
-    pic->setall();
+    pic.loadPicture((char*)test);
+    pic.setall();
     SDL_Window* win = SDL_CreateWindow( "test",
                                         SDL_WINDOWPOS_CENTERED,
                                         SDL_WINDOWPOS_CENTERED,
-                                        pic->getW(),pic->getH(),0);
+                                        pic.getW(),pic.getH(),0);
     
     if (!win)
     {

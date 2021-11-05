@@ -19,10 +19,7 @@ Singleton * Singleton::getInstance()
     }
     return instance_;
 }
-Singleton:: Singleton::~Singleton()
-{
-    delete [] this->array;
-}
+Singleton:: Singleton::~Singleton(){}
 
 
 

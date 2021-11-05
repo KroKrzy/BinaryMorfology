@@ -4,7 +4,6 @@
 #include <SDL2/SDL_image.h>
 
 #include "Singleton.h"
-#include "PixelArr.h"
 
 using namespace std;
 

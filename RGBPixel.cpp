@@ -5,7 +5,7 @@
 
 #include "RGBPixel.h"
 #include "Singleton.h"
-#include "PixelArr.h"
+
 
 using namespace std;
 

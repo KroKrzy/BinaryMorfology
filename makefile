@@ -1,6 +1,6 @@
 cc := g++
 
-CFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 --std=c++11 -Wall -g -lstdc++ -lSDL2_image -lm
+CFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 --std=c++11 -Wall -lstdc++ -lSDL2_image -lm
 
 HDRS := RGBPixel.h PixelArr.h Singleton.h
 
