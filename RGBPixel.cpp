@@ -4,32 +4,58 @@
 #include <cmath>
 
 #include "RGBPixel.h"
-#include "Singleton.h"
+
 
 
 using namespace std;
 
 RGBPixel::RGBPixel::RGBPixel(){};
-RGBPixel::RGBPixel(int x, int y)
+RGBPixel::RGBPixel(int x, int y,SDL_Surface* sur)
 {
-    this->setpixelrgb(x,y);
+    setpixelrgb(x,y,sur);
 }
 
-void RGBPixel::setpixelrgb(int x, int y)
+void RGBPixel::setpixelrgb(int x, int y,SDL_Surface* sur)
 {
-    SDL_Surface* sur=Singleton::getInstance()->sur;
-    uint32_t pixel = *((uint32_t *) sur->pixels + y * sur->w + x );
+    Uint32 pixel = getpixel(x,y,sur);
     SDL_GetRGBA(pixel,sur->format,&r,&g,&b,&a);
 }
+
+Uint32 RGBPixel::getpixel(int x, int y, SDL_Surface* sur)
+{
+    int bpp = sur->format->BytesPerPixel;
+    Uint8 *p = (Uint8 *)sur->pixels + y * sur->pitch + x * bpp;
+    
+    switch (bpp)
+    {
+        case 1:
+            return *p;
+            break;
+        case 2:
+            return *(Uint16 *)p;
+            break;
+        case 3:
+            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+                return p[0] << 16 | p[1] << 8 | p[2];
+            else
+                return p[0] | p[1] << 8 | p[2] << 16;
+            break;
+        case 4:
+            return *(Uint32 *)p;
+            break;
+        default:
+            return 0;
+    }
+}
+
 
 short RGBPixel::getValue()
 {
     return val;
 }
 
-void RGBPixel::setvalue(int x, int y, short value)
+void RGBPixel::setvalue(int x, int y, short value, SDL_Surface* sur)
 {
-    SDL_Surface* sur=Singleton::getInstance()->sur;
     unsigned char *pixels = (unsigned char*)sur->pixels;
     unsigned char newVal;
     if ( value == 0 ){
@@ -42,7 +68,7 @@ void RGBPixel::setvalue(int x, int y, short value)
         cout << "Wrong pixel value x="<<x<<"y="<<y<<endl;
         exit(1);
     }
-    uint32_t amask = sur->format->Amask;
+    Uint32 amask = sur->format->Amask;
     short ignore;
     switch(amask){
         case 0xFF000000:
@@ -63,223 +89,214 @@ void RGBPixel::setvalue(int x, int y, short value)
     }
     for (short c = 0;c<4;c++){
         if (c!=ignore){
-            pixels[4*(y*sur->w+x)+c]*=newVal;
+            pixels[4*(y*sur->w+x)+c]=newVal;
         }
     }
 }
-uint8_t RGBPixel::getr()
+Uint8 RGBPixel::getr()
 {
-    return this->r;
+    return r;
     
 }
-uint8_t RGBPixel::getg()
+Uint8 RGBPixel::getg()
 {
-    return this->g;
+    return g;
 }
-uint8_t RGBPixel::getb()
+Uint8 RGBPixel::getb()
 {
-    return this->b;
+    return b;
 }
 
-void RGBPixel::setr(uint8_t nr,int x, int y)
+void RGBPixel::setr(Uint8 nr,int x, int y, SDL_Surface* sur)
 {
-    this->r=nr;
-    SDL_Surface* sur=Singleton::getInstance()->sur;
-    uint32_t rmask = sur->format->Rmask;
-    uint8_t* pixels = (uint8_t*) sur->pixels;
+    r=nr;
+    Uint32 rmask = sur->format->Rmask;
+    Uint8* pixels = (uint8_t*) sur->pixels;
     switch (rmask){
         case 0xFF000000:
-            pixels[4*(y*sur->w+x)]*=nr;
+            pixels[4*(y*sur->w+x)]=nr;
             break;
         case 0x00FF0000:
-            pixels[4*(y*sur->w+x)+1]*=nr;
+            pixels[4*(y*sur->w+x)+1]=nr;
             break;
         case 0x0000FF00:
-            pixels[4*(y*sur->w+x)+2]*=nr;
+            pixels[4*(y*sur->w+x)+2]=nr;
             break;
         case 0x000000FF:
-            pixels[4*(y*sur->w+x)+3]*=nr;
+            pixels[4*(y*sur->w+x)+3]=nr;
             break;
         default:
             cout<<"Error:Wrong format"<<endl;
     }
 }
-void RGBPixel::setr(uint8_t nr,int i)
+void RGBPixel::setr(Uint8 nr,int i, SDL_Surface* sur)
 {
-    this->r=nr;
-    SDL_Surface* sur=Singleton::getInstance()->sur;
-    uint32_t rmask = sur->format->Rmask;
-    uint8_t* pixels = (uint8_t*) sur->pixels;
+    cout<<"nr"<<unsigned(nr)<<"i"<<i<<endl;
+    r=nr;
+    Uint32 rmask = sur->format->Rmask;
+    Uint8* pixels = (uint8_t*) sur->pixels;
     switch (rmask){
         case 0xFF000000:
-            pixels[4*(i)]*=nr;
+            pixels[4*(i)]=nr;
             break;
         case 0x00FF0000:
-            pixels[4*(i)+1]*=nr;
+            pixels[4*(i)+1]=nr;
             break;
         case 0x0000FF00:
-            pixels[4*(i)+2]*=nr;
+            pixels[4*(i)+2]=nr;
             break;
         case 0x000000FF:
-            pixels[4*(i)+3]*=nr;
+            pixels[4*(i)+3]=nr;
             break;
         default:
             cout<<"Error:Wrong format"<<endl;
     }
 }
-void RGBPixel::setg(uint8_t ng, int x, int y)
+void RGBPixel::setg(Uint8 ng, int x, int y, SDL_Surface* sur)
 {
-    this->g=ng;
-    SDL_Surface* sur=Singleton::getInstance()->sur;
+    g=ng;
     uint32_t gmask = sur->format->Gmask;
     uint8_t* pixels = (uint8_t*) sur->pixels;
     switch (gmask){
         case 0xFF000000:
-            pixels[4*(y*sur->w+x)]*=ng;
+            pixels[4*(y*sur->w+x)]=ng;
             break;
         case 0x00FF0000:
-            pixels[4*(y*sur->w+x)+1]*=ng;
+            pixels[4*(y*sur->w+x)+1]=ng;
             break;
         case 0x0000FF00:
-            pixels[4*(y*sur->w+x)+2]*=ng;
+            pixels[4*(y*sur->w+x)+2]=ng;
             break;
         case 0x000000FF:
-            pixels[r*(y*sur->w+x)+3]*=ng;
+            pixels[r*(y*sur->w+x)+3]=ng;
             break;
         default:
             cout<<"Error:Wrong format"<<endl;
     }
 }
-void RGBPixel::setg(uint8_t ng, int i)
+void RGBPixel::setg(Uint8 ng, int i, SDL_Surface* sur)
 {
-    this->g=ng;
-    SDL_Surface* sur=Singleton::getInstance()->sur;
-    uint32_t gmask = sur->format->Gmask;
-    uint8_t* pixels = (uint8_t*) sur->pixels;
+    g=ng;
+    Uint32 gmask = sur->format->Gmask;
+    Uint8* pixels = (Uint8*) sur->pixels;
     switch (gmask){
         case 0xFF000000:
-            pixels[4*(i)]*=ng;
+            pixels[4*(i)]=ng;
             break;
         case 0x00FF0000:
-            pixels[4*(i)+1]*=ng;
+            pixels[4*(i)+1]=ng;
             break;
         case 0x0000FF00:
-            pixels[4*(i)+2]*=ng;
+            pixels[4*(i)+2]=ng;
             break;
         case 0x000000FF:
-            pixels[4*(i)+3]*=ng;
+            pixels[4*(i)+3]=ng;
             break;
         default:
             cout<<"Error:Wrong format"<<endl;
     }
 }
-void RGBPixel::setb(uint8_t nb, int x, int y)
+void RGBPixel::setb(uint8_t nb, int x, int y, SDL_Surface* sur)
 {
-    this->b=nb;
-    SDL_Surface* sur=Singleton::getInstance()->sur;
-    uint32_t bmask = sur->format->Bmask;
-    uint8_t* pixels = (uint8_t*) sur->pixels;
+    b=nb;
+    Uint32 bmask = sur->format->Bmask;
+    Uint8* pixels = (Uint8*) sur->pixels;
     switch (bmask){
         case 0xFF000000:
-            pixels[4*(y*sur->w+x)]*=nb;
+            pixels[4*(y*sur->w+x)]=nb;
             break;
         case 0x00FF0000:
-            pixels[4*(y*sur->w+x)+1]*=nb;
+            pixels[4*(y*sur->w+x)+1]=nb;
             break;
         case 0x0000FF00:
-            pixels[4*(y*sur->w+x)+2]*=nb;
+            pixels[4*(y*sur->w+x)+2]=nb;
             break;
         case 0x000000FF:
-            pixels[4*(y*sur->w+x)+3]*=nb;
+            pixels[4*(y*sur->w+x)+3]=nb;
             break;
         default:
             cout<<"Error:Wrong format"<<endl;
     }
 }
-void RGBPixel::setb(uint8_t nb, int i)
+void RGBPixel::setb(Uint8 nb, int i, SDL_Surface* sur)
 {
     this->b=nb;
-    SDL_Surface* sur=Singleton::getInstance()->sur;
-    uint32_t bmask = sur->format->Bmask;
-    uint8_t* pixels = (uint8_t*) sur->pixels;
+    Uint32 bmask = sur->format->Bmask;
+    Uint8* pixels = (Uint8*) sur->pixels;
     switch (bmask){
         case 0xFF000000:
-            pixels[4*(i)]*=nb;
+            pixels[4*(i)]=nb;
             break;
         case 0x00FF0000:
-            pixels[4*(i)+1]*=nb;
+            pixels[4*(i)+1]=nb;
             break;
         case 0x0000FF00:
-            pixels[4*(i)+2]*=nb;
+            pixels[4*(i)+2]=nb;
             break;
         case 0x000000FF:
-            pixels[4*(i)+3]*=nb;
+            pixels[4*(i)+3]=nb;
             break;
         default:
             cout<<"Error:Wrong format"<<endl;
     }
 }
-void RGBPixel::seta(uint8_t na, int x, int y)
+void RGBPixel::seta(uint8_t na, int x, int y, SDL_Surface* sur)
 {
-    this->a=na;
-    SDL_Surface* sur=Singleton::getInstance()->sur;
-    uint32_t amask = sur->format->Amask;
-    uint8_t* pixels = (uint8_t*) sur->pixels;
+    a=na;
+    Uint32 amask = sur->format->Amask;
+    Uint8* pixels = (Uint8*) sur->pixels;
     switch (amask){
         case 0xFF000000:
-            pixels[4*(y*sur->w+x)]*=na;
+            pixels[4*(y*sur->w+x)]=na;
             break;
         case 0x00FF0000:
-            pixels[4*(y*sur->w+x)+1]*=na;
+            pixels[4*(y*sur->w+x)+1]=na;
             break;
         case 0x0000FF00:
-            pixels[4*(y*sur->w+x)+2]*=na;
+            pixels[4*(y*sur->w+x)+2]=na;
             break;
         case 0x000000FF:
-            pixels[4*(y*sur->w+x)+3]*=na;
+            pixels[4*(y*sur->w+x)+3]=na;
             break;
         default:
             cout<<"Error:Wrong format"<<endl;
     }
 }
-void RGBPixel::seta(uint8_t na, int i)
+void RGBPixel::seta(Uint8 na, int i, SDL_Surface* sur)
 {
-    this->a=na;
-    SDL_Surface* sur=Singleton::getInstance()->sur;
-    uint32_t amask = sur->format->Amask;
-    uint8_t* pixels = (uint8_t*) sur->pixels;
+    a=na;
+    Uint32 amask = sur->format->Amask;
+    Uint8* pixels = (Uint8*) sur->pixels;
     switch (amask){
         case 0xFF000000:
-            pixels[4*(i)]*=na;
+            pixels[4*(i)]=na;
             break;
         case 0x00FF0000:
-            pixels[4*(i)+1]*=na;
+            pixels[4*(i)+1]=na;
             break;
         case 0x0000FF00:
-            pixels[4*(i)+2]*=na;
+            pixels[4*(i)+2]=na;
             break;
         case 0x000000FF:
-            pixels[r*(i)+3]*=na;
+            pixels[r*(i)+3]=na;
             break;
         default:
             cout<<"Error:Wrong format"<<endl;
     }
 }
 
-void RGBPixel::setrgb(uint8_t nr, uint8_t ng, uint8_t nb, int x, int y)
+void RGBPixel::setrgb(Uint8 nr, Uint8 ng, Uint8 nb, int x, int y, SDL_Surface* sur)
 {
-    this->setr(nr,x,y);
-    this->setg(ng,x,y);
-    this->setb(nb,x,y);
+    setr(nr,x,y,sur);
+    setg(ng,x,y,sur);
+    setb(nb,x,y,sur);
+    getpixel(x,y,sur);
 }
-void RGBPixel::setrgb(uint8_t nr, uint8_t ng, uint8_t nb, int i)
+void RGBPixel::setrgb(uint8_t nr, uint8_t ng, uint8_t nb, int i, SDL_Surface* sur)
 {
-    this->setr(nr,i);
-    this->setg(ng,i);
-    this->setb(nb,i);
+    cout<<"nr"<<unsigned(nr)<<"ng"<<unsigned(ng)<<"nb"<<unsigned(nb)<<"i"<<i<<endl;
+    setr(nr,i,sur);
+    setg(ng,i,sur);
+    setb(nb,i,sur);
 }
 RGBPixel::~RGBPixel(){;}
-
-
-
-

@@ -3,7 +3,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "Singleton.h"
 #include "RGBPixel.h"
 
 using namespace std;
@@ -12,6 +11,7 @@ class Singleton;
 class RGBPixel;
 class PixelArr{
 public:
+    SDL_Surface * sur;
     PixelArr();
     void setall();
     void set(int x,int y);
@@ -34,6 +34,7 @@ public:
 private:
     RGBPixel *array;
     int size,sizex,sizey;
+
 
     
     

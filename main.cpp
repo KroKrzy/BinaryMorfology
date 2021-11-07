@@ -5,7 +5,7 @@
 
 #include "RGBPixel.h"
 #include "PixelArr.h"
-#include "Singleton.h"
+
 
 using namespace std;
 
@@ -17,7 +17,7 @@ int main(){
         return 1;
     }
     PixelArr pic;
-    const char *test = "test.png";
+    const char *test = "./test.png";
     pic.loadPicture((char*)test);
     pic.setall();
     SDL_Window* win = SDL_CreateWindow( "test",
@@ -31,7 +31,6 @@ int main(){
         SDL_Quit();
         return 1;
     }
-    cout<<5;
     Uint32 render_flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
     SDL_Renderer* rend = SDL_CreateRenderer(win,-1,render_flags);
     if (!rend)
@@ -42,7 +41,7 @@ int main(){
         return 1;
     }
     
-    SDL_Texture* tex =SDL_CreateTextureFromSurface(rend, Singleton::getInstance()->sur);
+    SDL_Texture* tex =SDL_CreateTextureFromSurface(rend, pic.sur);
     if (!tex){
         cout<<"Error creating texture"<<endl;
         SDL_DestroyRenderer(rend);
@@ -50,10 +49,18 @@ int main(){
         SDL_Quit();
         return 1;
     }
-    SDL_Rect rect;
-    SDL_QueryTexture(tex,NULL,NULL,&rect.w,&rect.h);
+
     SDL_RenderClear(rend);
-    SDL_RenderCopy(rend,tex,NULL,&rect);
+    SDL_RenderCopy(rend,tex,NULL,NULL);
+    SDL_RenderPresent(rend);
+    SDL_Delay(5000);
+    
+    pic.monochrome();
+    
+    tex = SDL_CreateTextureFromSurface(rend,pic.sur);
+    
+    SDL_RenderClear(rend);
+    SDL_RenderCopy(rend,tex,NULL,NULL);
     SDL_RenderPresent(rend);
     SDL_Delay(5000);
     
