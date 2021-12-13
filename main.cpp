@@ -3,6 +3,7 @@
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_image.h>
 
+
 #include "RGBPixel.h"
 #include "PixelArr.h"
 
@@ -11,19 +12,17 @@ using namespace std;
 
 
 int main(){
-
     if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER)!=0){
         cout<<"SDL Init error"<<endl;
         return 1;
     }
     PixelArr pic;
-    const char *test = "./test.png";
-    pic.loadPicture((char*)test);
-    pic.setall();
+    const string test = "./test.txt";
+    pic.loadPicturetxt(test);
     SDL_Window* win = SDL_CreateWindow( "test",
                                         SDL_WINDOWPOS_CENTERED,
                                         SDL_WINDOWPOS_CENTERED,
-                                        pic.getW(),pic.getH(),0);
+                                        pic.getW()*10*2+1,pic.getH()*10,0);
     
     if (!win)
     {
@@ -40,7 +39,6 @@ int main(){
         SDL_Quit();
         return 1;
     }
-    
     SDL_Texture* tex =SDL_CreateTextureFromSurface(rend, pic.sur);
     if (!tex){
         cout<<"Error creating texture"<<endl;
@@ -49,22 +47,53 @@ int main(){
         SDL_Quit();
         return 1;
     }
-
-    SDL_RenderClear(rend);
-    SDL_RenderCopy(rend,tex,NULL,NULL);
-    SDL_RenderPresent(rend);
-    SDL_Delay(5000);
     
-    pic.monochrome();
+    pic.open("teststruc.txt");
     
-    tex = SDL_CreateTextureFromSurface(rend,pic.sur);
+    SDL_Texture* tex1 =SDL_CreateTextureFromSurface(rend, pic.sur);
+    if (!tex1){
+        cout<<"Error creating texture"<<endl;
+        SDL_DestroyRenderer(rend);
+        SDL_DestroyWindow(win);
+        SDL_Quit();
+        return 1;
+    }
     
-    SDL_RenderClear(rend);
-    SDL_RenderCopy(rend,tex,NULL,NULL);
-    SDL_RenderPresent(rend);
-    SDL_Delay(5000);
+    bool close_requested=false;
     
+    while(!close_requested)
+    {
+        SDL_Event event;
+        while(SDL_PollEvent(&event))
+        {
+            if (event.type == SDL_QUIT) close_requested = true;
+        }
+        SDL_Rect rect;
+        SDL_QueryTexture(tex,NULL,NULL, &rect.w,&rect.h);
+        rect.h*=10;
+        rect.w*=10;
+        rect.x=0;
+        rect.y=0;
+        
+        
+        SDL_RenderClear(rend);
+        SDL_RenderCopy(rend,tex,NULL,&rect);
+        
+        SDL_QueryTexture(tex1,NULL,NULL, &rect.w,&rect.h);
+        rect.h*=10;
+        rect.w*=10;
+        rect.x=pic.getW()*10+1;
+        rect.y=0;
+        
+        SDL_RenderCopy(rend,tex1,NULL,&rect);
+        
+        SDL_RenderPresent(rend);
+        SDL_Delay(1/20);
+        
+        
+    }
     SDL_DestroyTexture(tex);
+    SDL_DestroyTexture(tex1);
     SDL_DestroyRenderer(rend);
     SDL_DestroyWindow(win);
     SDL_Quit();

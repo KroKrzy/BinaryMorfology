@@ -1,104 +1,62 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <fstream>
+#include <sstream>
+
 
 #include "PixelArr.h"
-#include "RGBPixel.h"
+
 
 using namespace std;
 
 PixelArr::PixelArr()
 {
-    sur = SDL_CreateRGBSurface(
-    SDL_SWSURFACE,
-    10, 10, 
-    16, 
-    #if SDL_BYTEORDER == SDL_LIL_ENDIAN
-    0x000000FF,
-    0x0000FF00,
-    0x00FF0000,
-    0xFF000000);
+    Uint32 rmask,gmask,bmask,amask;
+    #if SDL_BYTEORDER == SDL_BIG_ENDIAN
+        rmask = 0xFF000000;
+        gmask = 0x00FF0000;
+        bmask = 0x0000FF00;
+        amask = 0x000000FF;
     #else
-    0xFF000000,
-    0x00FF0000,
-    0x0000FF00,
-    0x000000FF);
+        rmask = 0x000000FF;
+        gmask = 0x0000FF00;
+        bmask = 0x00FF0000;
+        amask = 0xFF000000;
     #endif
+    sur = SDL_CreateRGBSurface(0,10,10,32,rmask, gmask,bmask,amask);
 }
 
-void PixelArr::setall()
-{
-    sizex=sur->w;
-    sizey=sur->h;
-    size=sizex*sizey;
-    array=new RGBPixel[size];
-    for(int x=0;x<sizex;x++){
-        for(int y = 0; y<sizey; y++){
-            set(x,y);
-        }
-    }
-};
-void PixelArr::set(int x, int y)
-{
-    array[sizey*y+x].setpixelrgb(x,y,sur);
-}
 short PixelArr::get(int x, int y)
 {
-    return array[sizey*y+x].getValue();
+    return getValue(x,y);
 }
 int PixelArr::getsize()
 {
-    return size;
+    return getW()*getH();
 }
 void PixelArr::setValue(int x, int y, short value)
 {
-    array[sizey*y+x].setvalue(x,y,value,sur);
+    setvalue(x,y,value);
 }
-uint8_t PixelArr::getr(int x, int y)
+void PixelArr::getrgb(int x, int y)
 {
-    return array[this->sizey*y+x].getr();
-}
-uint8_t PixelArr::getr(int i)
-{
-    return array[i].getr();
-}
-uint8_t PixelArr::getg(int x, int y)
-{
-    return array[sizey*y+x].getg();
-}
-uint8_t PixelArr::getg(int i)
-{
-    return array[i].getg();
-}
-uint8_t PixelArr::getb(int x, int y)
-{
-    return array[sizey*y+x].getb();
-}
-uint8_t PixelArr::getb(int i)
-{
-    return array[i].getb();
-}
-void PixelArr::setrgb(int x,int y, uint8_t nr, uint8_t ng, uint8_t nb)
-{
-    array[sizey*y+x].setrgb(x,y,nr,ng,nb,sur);
-}
-void PixelArr::setrgb(int i, uint8_t nr, uint8_t ng, uint8_t nb)
-{
-    array[i].setrgb(nr,ng,nb,i,sur);
-    cout<<unsigned(array[i].getr())<<" "<<unsigned(array[i].getg())<<" "<<unsigned(array[i].getb())<<";"<<unsigned(nr)<<" "<<unsigned(ng)<<" "<<unsigned(nb)<<":"<<endl;
+     SDL_LockSurface(sur);
+     Uint32 pixel = getpixel(x,y);
+     SDL_GetRGB(pixel,sur->format,&r,&g,&b);
+     SDL_UnlockSurface(sur);
 }
 int PixelArr::getW()
 {
-    return sizex;
+    return sur->w;
 }
 int PixelArr::getH()
 {
-    return sizey;
+    return sur->h;
 }
 void PixelArr::loadPicture(char* path)
 {
     SDL_FreeSurface(sur);
-    cout<<"test"<<endl;
     sur=IMG_Load(path);
     if (!sur){
         cout<<"Error creating surface"<<endl;
@@ -108,17 +66,271 @@ void PixelArr::loadPicture(char* path)
 }
 void PixelArr::monochrome()
 {
-    for(int i = 0;i<getsize();i++)
+    for(int x = 0;x<getW();x++)
     {
-        Uint8 newval=0.299*getr(i)+0.587*getg(i)+0.114*getb(i);
-        setrgb(i,newval,newval,newval);
+        for(int y = 0;y<getH();y++)
+        {
+            getrgb(x,y);
+            Uint8 newval=0.299*r+0.587*g+0.114*b;
+            setrgb(newval,newval,newval,x,y);
+        }
     }
 }
+
+Uint32 PixelArr::getpixel(int x, int y)
+{
+    SDL_LockSurface(sur);
+    int bpp = sur->format->BytesPerPixel;
+    Uint8 *p = (Uint8 *)sur->pixels + y * sur->pitch + x * bpp;
+    SDL_UnlockSurface(sur);
+    switch (bpp)
+    {
+        case 1:
+            return *p;
+            break;
+        case 2:
+            return *(Uint16 *)p;
+            break;
+        case 3:
+            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+                return p[0] << 16 | p[1] << 8 | p[2];
+            else
+                return p[0] | p[1] << 8 | p[2] << 16;
+            break;
+        case 4:
+            return *(Uint32 *)p;
+            break;
+        default:
+            return 0;
+    }
+}
+
+
+short PixelArr::getValue(int x, int y)
+{
+    getrgb(x,y);
+    if (r==255){return 0;}
+    else{return 1;}
+}
+
+void PixelArr::setvalue(int x, int y, short value)
+{
+    Uint8 newVal;
+    if ( value == 0 ){
+        newVal = 255;
+    }
+    else if ( value == 1){
+        newVal = 0;
+    }
+    else{
+        cout << "Wrong pixel value x="<<x<<"y="<<y<<" "<<value<<endl;
+        exit(1);
+    }
+    setrgb(newVal,newVal,newVal,x,y);
+}
+void PixelArr::setrgb(Uint8 nr, Uint8 ng, Uint8 nb, int x, int y)
+{
+    SDL_LockSurface(sur);
+    Uint32 newpixel = SDL_MapRGB(sur->format,nr,ng,nb);
+    Uint32 * const target = (Uint32*)((Uint8*)sur->pixels+y*sur->pitch+x*sur->format->BytesPerPixel);
+    *target=newpixel;
+    SDL_UnlockSurface(sur);
+}
+void PixelArr::loadPicturetxt(string path)
+{
+    string line;
+    ifstream infile (path);
+    int dim[2];
+    if(infile.good())
+    {
+        infile>>dim[0]>>dim[1];
+    }
+    short tab[dim[0]][dim[1]];
+    int x=0,y=-1;
+    while(getline(infile,line))
+    {
+        stringstream ss(line);
+        if(y>=0)
+        {
+            for (int i=0;i<dim[0];i++)
+            {
+                ss>>tab[x++][y];
+            }
+        }
+        x=0;
+        y++;
+    }
+    SDL_FreeSurface(sur);
+    Uint32 rmask,gmask,bmask,amask;
+    #if SDL_BYTEORDER == SDL_BIG_ENDIAN
+        rmask = 0xFF000000;
+        gmask = 0x00FF0000;
+        bmask = 0x0000FF00;
+        amask = 0x000000FF;
+    #else
+        rmask = 0x000000FF;
+        gmask = 0x0000FF00;
+        bmask = 0x00FF0000;
+        amask = 0xFF000000;
+    #endif
+    sur = SDL_CreateRGBSurface(0,dim[1],dim[0],32,rmask, gmask,bmask,amask);
+    for(int nx=0;nx<dim[0];nx++)
+    {
+        for(int ny=0;ny<dim[1];ny++)
+        {
+            setvalue(nx,ny,tab[nx][ny]);        }
+    }
+}
+
+void PixelArr::dilation(string path)
+{
+    string line;
+    ifstream infile (path);
+    int dim[2];
+    if(infile.good())
+    {
+        infile>>dim[0]>>dim[1];
+    }
+    short tab[dim[0]][dim[1]];
+    int x=0,y=-1;
+    while(getline(infile,line))
+    {
+        stringstream ss(line);
+        if(y>=0)
+        {
+            for (int i=0;i<dim[0];i++)
+            {
+                ss>>tab[x++][y];
+            }
+        }
+        x=0;
+        y++;
+    }
+    
+    int mid[2];
+    mid[0]=dim[0]/2+1;
+    mid[1]=dim[1]/2+1;
+    short temp[getW()][getH()];
+    for (int x = 0 ; x < getW() ; x++)
+    {
+        for (int y = 0 ; y < getH() ; y++)
+        {
+            temp[x][y]=0;
+            bool done = false;
+            for (int i = 0 ; i < dim[0] ; i++)
+            {
+                int nx = x - (mid[0]-i)+1;
+                if ( nx>=0 && nx<getW() && !done)
+                {
+                    for (int j = 0 ; j < dim[1] ; j++)
+                    {
+                        int ny = y - (mid[1]-j)+1;
+                        if (ny>=0 && ny<getH())
+                        {
+                            if (tab[i][j]==1 && getValue(nx,ny)==1)
+                            {
+                                temp[x][y]=1;
+                                done = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    for(int x = 0 ; x < getW() ; x++)
+    {
+        for(int y = 0 ; y < getH() ; y++)
+        {
+            setValue(x,y,temp[x][y]);
+        }
+    }
+}
+void PixelArr::erosion(string path)
+{
+    string line;
+    ifstream infile (path);
+    int dim[2];
+    if(infile.good())
+    {
+        infile>>dim[0]>>dim[1];
+    }
+    short tab[dim[0]][dim[1]];
+    int x=0,y=-1;
+    while(getline(infile,line))
+    {
+        stringstream ss(line);
+        if(y>=0)
+        {
+            for (int i=0;i<dim[0];i++)
+            {
+                ss>>tab[x++][y];
+            }
+        }
+        x=0;
+        y++;
+    }
+    
+    int mid[2];
+    mid[0]=dim[0]/2+1;
+    mid[1]=dim[1]/2+1;
+    short temp[getW()][getH()];
+    for (int x = 0 ; x < getW() ; x++)
+    {
+        for (int y = 0 ; y < getH() ; y++)
+        {
+            temp[x][y]=1;
+            bool done = false;
+            for (int i = 0 ; i < dim[0] ; i++)
+            {
+                int nx = x - (mid[0]-i)+1;
+                if ( nx<0 || nx>=getW())
+                {
+                    temp[x][y]=0;
+                    done = true;
+                }
+                if (!done)
+                {
+                    for (int j = 0 ; j < dim[1] ; j++)
+                    {
+                        int ny = y - (mid[1]-j)+1;
+                        if ((ny<0 || ny>=getH())||(tab[i][j]==1 && getValue(nx,ny))==0)
+                        {
+                            temp[x][y]=0;
+                            done = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    for(int x = 0 ; x < getW() ; x++)
+    {
+        for(int y = 0 ; y < getH() ; y++)
+        {
+            setValue(x,y,temp[x][y]);
+        }
+    }
+}
+
+void PixelArr::open(std::string path)
+{
+    erosion(path);
+    dilation(path);
+}
+
+void PixelArr::close(std::string path)
+{
+    dilation(path);
+    erosion(path);
+}
+
+
+
 
 PixelArr::~PixelArr()
 {
     SDL_FreeSurface(sur);
-    delete [] array;
 }
 
 
