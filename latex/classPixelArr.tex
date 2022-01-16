@@ -1,0 +1,328 @@
+\hypertarget{classPixelArr}{}\doxysection{Pixel\+Arr Class Reference}
+\label{classPixelArr}\index{PixelArr@{PixelArr}}
+
+
+{\ttfamily \#include $<$Pixel\+Arr.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classPixelArr_a52a3840652fb0cc24f5911dbb090ff12}{Pixel\+Arr}} ()
+\item 
+int \mbox{\hyperlink{classPixelArr_a96bf76129a0bda5b1f95cfb51a4d1c0e}{getsize}} ()
+\item 
+void \mbox{\hyperlink{classPixelArr_a125416bcfc58276a0df808947c2581a7}{set\+Value}} (int x, int y, short value)
+\item 
+void \mbox{\hyperlink{classPixelArr_aec625df1d2986d70c9d77c0b92e6aa00}{getrgb}} (int x, int y)
+\item 
+int \mbox{\hyperlink{classPixelArr_ae4faa3488d7d528883cec84014db4b94}{getW}} ()
+\item 
+int \mbox{\hyperlink{classPixelArr_a7ed174a154171619a5111bcf654cebc5}{getH}} ()
+\item 
+short \mbox{\hyperlink{classPixelArr_aab73a203314c7e928e5468924bd15734}{get\+Value}} (int x, int y)
+\item 
+void \mbox{\hyperlink{classPixelArr_a21fedd7f14124102dcabd407a88e41cb}{setrgb}} (uint8\+\_\+t nr, uint8\+\_\+t ng, uint8\+\_\+t nb, int x, int y)
+\item 
+void \mbox{\hyperlink{classPixelArr_aaac6adc378a40183c42906522c26aa37}{load\+Picturetxt}} (string path)
+\item 
+void \mbox{\hyperlink{classPixelArr_a1bd1026f7d53f37c7dd00533bff9661a}{dilation}} (string path)
+\item 
+void \mbox{\hyperlink{classPixelArr_ad25e944de6cfc26a69b2cd81f8f81642}{erosion}} (string path)
+\item 
+void \mbox{\hyperlink{classPixelArr_a9105ce5498fd073fdad3c8b7d5e02536}{open}} (string path)
+\item 
+void \mbox{\hyperlink{classPixelArr_a5f0e20b8bf465c093ff0276a55fea483}{close}} (string path)
+\item 
+void \mbox{\hyperlink{classPixelArr_a85103d8c8c31437b7999a1868c25f26e}{save}} ()
+\item 
+void \mbox{\hyperlink{classPixelArr_ac795d4c2ec7bc665372352c00b810687}{conture}} (string path)
+\item 
+void \mbox{\hyperlink{classPixelArr_a26c16b2440ce16d3a7c15752eed4973a}{vflip}} ()
+\item 
+void \mbox{\hyperlink{classPixelArr_a8eec51be3d4b475b417e8bdbfb28a95c}{hflip}} ()
+\item 
+\mbox{\hyperlink{classPixelArr_ad970973dd64c517a1b6bd7130706500e}{$\sim$\+Pixel\+Arr}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+SDL\+\_\+\+Surface $\ast$ \mbox{\hyperlink{classPixelArr_adc1322fbb09c2241b59fb7e0fea0c78d}{sur}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class that stores data on picture and methods to modify it 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classPixelArr_a52a3840652fb0cc24f5911dbb090ff12}\label{classPixelArr_a52a3840652fb0cc24f5911dbb090ff12}} 
+\index{PixelArr@{PixelArr}!PixelArr@{PixelArr}}
+\index{PixelArr@{PixelArr}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{PixelArr()}{PixelArr()}}
+{\footnotesize\ttfamily Pixel\+Arr\+::\+Pixel\+Arr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Constructor of the class
+
+Sets RGBA masks and creates temporal empty surface to avoid errors \mbox{\Hypertarget{classPixelArr_ad970973dd64c517a1b6bd7130706500e}\label{classPixelArr_ad970973dd64c517a1b6bd7130706500e}} 
+\index{PixelArr@{PixelArr}!````~PixelArr@{$\sim$PixelArr}}
+\index{````~PixelArr@{$\sim$PixelArr}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{$\sim$PixelArr()}{~PixelArr()}}
+{\footnotesize\ttfamily Pixel\+Arr\+::$\sim$\+Pixel\+Arr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Destructor of the class
+
+Frees surface 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classPixelArr_a5f0e20b8bf465c093ff0276a55fea483}\label{classPixelArr_a5f0e20b8bf465c093ff0276a55fea483}} 
+\index{PixelArr@{PixelArr}!close@{close}}
+\index{close@{close}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{close()}{close()}}
+{\footnotesize\ttfamily void Pixel\+Arr\+::close (\begin{DoxyParamCaption}\item[{string}]{path }\end{DoxyParamCaption})}
+
+Operation of closing on the picture using given structuring element
+
+Structuring element is saved in .txt file and needs to follow the format\+:
+
+1st line\+: (number of colums) (number of rows) without ()
+
+rest of the file\+: (1st value in the row) (2nd value in the row) ... (last value in the row) without ()
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Path to file with structuring element \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPixelArr_ac795d4c2ec7bc665372352c00b810687}\label{classPixelArr_ac795d4c2ec7bc665372352c00b810687}} 
+\index{PixelArr@{PixelArr}!conture@{conture}}
+\index{conture@{conture}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{conture()}{conture()}}
+{\footnotesize\ttfamily void Pixel\+Arr\+::conture (\begin{DoxyParamCaption}\item[{string}]{path }\end{DoxyParamCaption})}
+
+Turn objects on the picture into conture using structuring element
+
+Thickness of the contur is equal radius of the element minus of on given axis
+
+Structuring element is saved in .txt file and needs to follow the format\+: 1st line\+: (number of colums) (number of rows) without () rest of the file\+: (1st value in the row) (2nd value in the row) ... (last value in the row) without ()
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Path to file with structuring element \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPixelArr_a1bd1026f7d53f37c7dd00533bff9661a}\label{classPixelArr_a1bd1026f7d53f37c7dd00533bff9661a}} 
+\index{PixelArr@{PixelArr}!dilation@{dilation}}
+\index{dilation@{dilation}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{dilation()}{dilation()}}
+{\footnotesize\ttfamily void Pixel\+Arr\+::dilation (\begin{DoxyParamCaption}\item[{string}]{path }\end{DoxyParamCaption})}
+
+Operation of dilation on the picture using given structured object
+
+Structured Object is saved in .txt file and needs to follow the format\+:
+
+1st line\+: (number of colums) (number of rows) without ()
+
+rest of the file\+: (1st value in the row) (2nd value in the row) ... (last value in the row) without ()
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Path to file with structured object \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPixelArr_ad25e944de6cfc26a69b2cd81f8f81642}\label{classPixelArr_ad25e944de6cfc26a69b2cd81f8f81642}} 
+\index{PixelArr@{PixelArr}!erosion@{erosion}}
+\index{erosion@{erosion}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{erosion()}{erosion()}}
+{\footnotesize\ttfamily void Pixel\+Arr\+::erosion (\begin{DoxyParamCaption}\item[{string}]{path }\end{DoxyParamCaption})}
+
+Operation of erosion on the picture using given structuring element
+
+Structuring element is saved in .txt file and needs to follow the format\+:
+
+1st line\+: (number of colums) (number of rows) without ()
+
+rest of the file\+: (1st value in the row) (2nd value in the row) ... (last value in the row) without ()
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Path to file with structuring element \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPixelArr_a7ed174a154171619a5111bcf654cebc5}\label{classPixelArr_a7ed174a154171619a5111bcf654cebc5}} 
+\index{PixelArr@{PixelArr}!getH@{getH}}
+\index{getH@{getH}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{getH()}{getH()}}
+{\footnotesize\ttfamily int Pixel\+Arr\+::getH (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Get the height of the picture
+
+\begin{DoxyReturn}{Returns}
+height of the picture in pixels 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPixelArr_aec625df1d2986d70c9d77c0b92e6aa00}\label{classPixelArr_aec625df1d2986d70c9d77c0b92e6aa00}} 
+\index{PixelArr@{PixelArr}!getrgb@{getrgb}}
+\index{getrgb@{getrgb}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{getrgb()}{getrgb()}}
+{\footnotesize\ttfamily void Pixel\+Arr\+::getrgb (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+Get RGB values of given pixel to temporal r,g,b variables
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & x coordinate of the pixel \\
+\hline
+{\em y} & y coordinate of the pixel \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPixelArr_a96bf76129a0bda5b1f95cfb51a4d1c0e}\label{classPixelArr_a96bf76129a0bda5b1f95cfb51a4d1c0e}} 
+\index{PixelArr@{PixelArr}!getsize@{getsize}}
+\index{getsize@{getsize}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{getsize()}{getsize()}}
+{\footnotesize\ttfamily int Pixel\+Arr\+::getsize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Get size of the picture in pixels
+
+\begin{DoxyReturn}{Returns}
+number of pixels in the picture 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPixelArr_aab73a203314c7e928e5468924bd15734}\label{classPixelArr_aab73a203314c7e928e5468924bd15734}} 
+\index{PixelArr@{PixelArr}!getValue@{getValue}}
+\index{getValue@{getValue}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}}
+{\footnotesize\ttfamily short Pixel\+Arr\+::get\+Value (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+Get value of the given pixel
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & x coordinate of the pixel \\
+\hline
+{\em y} & y coordinate of the pixel\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value of the pixel from set \{0,1\} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPixelArr_ae4faa3488d7d528883cec84014db4b94}\label{classPixelArr_ae4faa3488d7d528883cec84014db4b94}} 
+\index{PixelArr@{PixelArr}!getW@{getW}}
+\index{getW@{getW}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{getW()}{getW()}}
+{\footnotesize\ttfamily int Pixel\+Arr\+::getW (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Get the width of the picture
+
+\begin{DoxyReturn}{Returns}
+width of the picture in pixels 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPixelArr_a8eec51be3d4b475b417e8bdbfb28a95c}\label{classPixelArr_a8eec51be3d4b475b417e8bdbfb28a95c}} 
+\index{PixelArr@{PixelArr}!hflip@{hflip}}
+\index{hflip@{hflip}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{hflip()}{hflip()}}
+{\footnotesize\ttfamily void Pixel\+Arr\+::hflip (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Horizontal flip of the picture \mbox{\Hypertarget{classPixelArr_aaac6adc378a40183c42906522c26aa37}\label{classPixelArr_aaac6adc378a40183c42906522c26aa37}} 
+\index{PixelArr@{PixelArr}!loadPicturetxt@{loadPicturetxt}}
+\index{loadPicturetxt@{loadPicturetxt}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{loadPicturetxt()}{loadPicturetxt()}}
+{\footnotesize\ttfamily void Pixel\+Arr\+::load\+Picturetxt (\begin{DoxyParamCaption}\item[{string}]{path }\end{DoxyParamCaption})}
+
+Load Picture from .txt file
+
+Text file needs to follow the format\+:
+
+1st line\+: (number of colums) (number of rows) without ()
+
+rest of the file\+: (1st value in the row) (2nd value in the row) ... (last value in the row) without ()
+
+Values need to belong in set \{0,1\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Path to the text file \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPixelArr_a9105ce5498fd073fdad3c8b7d5e02536}\label{classPixelArr_a9105ce5498fd073fdad3c8b7d5e02536}} 
+\index{PixelArr@{PixelArr}!open@{open}}
+\index{open@{open}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{open()}{open()}}
+{\footnotesize\ttfamily void Pixel\+Arr\+::open (\begin{DoxyParamCaption}\item[{string}]{path }\end{DoxyParamCaption})}
+
+Operation of opening on the picture using given structuring element
+
+Structuring element is saved in .txt file and needs to follow the format\+:
+
+1st line\+: (number of colums) (number of rows) without ()
+
+rest of the file\+: (1st value in the row) (2nd value in the row) ... (last value in the row) without ()
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Path to file with structuring element \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPixelArr_a85103d8c8c31437b7999a1868c25f26e}\label{classPixelArr_a85103d8c8c31437b7999a1868c25f26e}} 
+\index{PixelArr@{PixelArr}!save@{save}}
+\index{save@{save}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{save()}{save()}}
+{\footnotesize\ttfamily void Pixel\+Arr\+::save (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Saving current state of the picture as output.\+bmp and output.\+txt files
+
+Files are being saved in main folder of the app \mbox{\Hypertarget{classPixelArr_a21fedd7f14124102dcabd407a88e41cb}\label{classPixelArr_a21fedd7f14124102dcabd407a88e41cb}} 
+\index{PixelArr@{PixelArr}!setrgb@{setrgb}}
+\index{setrgb@{setrgb}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{setrgb()}{setrgb()}}
+{\footnotesize\ttfamily void Pixel\+Arr\+::setrgb (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{nr,  }\item[{uint8\+\_\+t}]{ng,  }\item[{uint8\+\_\+t}]{nb,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+Set rgb value to given pixel
+
+
+\begin{DoxyParams}{Parameters}
+{\em nr} & new red value \\
+\hline
+{\em ng} & new green value \\
+\hline
+{\em nb} & new blue value \\
+\hline
+{\em x} & x coordinate of the pixel \\
+\hline
+{\em y} & y coordinate of the pixel \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPixelArr_a125416bcfc58276a0df808947c2581a7}\label{classPixelArr_a125416bcfc58276a0df808947c2581a7}} 
+\index{PixelArr@{PixelArr}!setValue@{setValue}}
+\index{setValue@{setValue}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{setValue()}{setValue()}}
+{\footnotesize\ttfamily void Pixel\+Arr\+::set\+Value (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{short}]{value }\end{DoxyParamCaption})}
+
+Set value of given pixel
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & x coordinate of the pixel \\
+\hline
+{\em y} & y coordinate of the pixel \\
+\hline
+{\em value} & new value of the pixel from set\{0,1\} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPixelArr_a26c16b2440ce16d3a7c15752eed4973a}\label{classPixelArr_a26c16b2440ce16d3a7c15752eed4973a}} 
+\index{PixelArr@{PixelArr}!vflip@{vflip}}
+\index{vflip@{vflip}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{vflip()}{vflip()}}
+{\footnotesize\ttfamily void Pixel\+Arr\+::vflip (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Vertical flip of the picture 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classPixelArr_adc1322fbb09c2241b59fb7e0fea0c78d}\label{classPixelArr_adc1322fbb09c2241b59fb7e0fea0c78d}} 
+\index{PixelArr@{PixelArr}!sur@{sur}}
+\index{sur@{sur}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{sur}{sur}}
+{\footnotesize\ttfamily SDL\+\_\+\+Surface$\ast$ Pixel\+Arr\+::sur}
+
+Surface storing picture 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{PixelArr_8h}{Pixel\+Arr.\+h}}\item 
+\mbox{\hyperlink{PixelArr_8cpp}{Pixel\+Arr.\+cpp}}\end{DoxyCompactItemize}

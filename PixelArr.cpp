@@ -27,17 +27,9 @@ PixelArr::PixelArr()
     sur = SDL_CreateRGBSurface(0,10,10,32,rmask, gmask,bmask,amask);
 }
 
-short PixelArr::get(int x, int y)
-{
-    return getValue(x,y);
-}
 int PixelArr::getsize()
 {
     return getW()*getH();
-}
-void PixelArr::setValue(int x, int y, short value)
-{
-    setvalue(x,y,value);
 }
 void PixelArr::getrgb(int x, int y)
 {
@@ -46,35 +38,15 @@ void PixelArr::getrgb(int x, int y)
      SDL_GetRGB(pixel,sur->format,&r,&g,&b);
      SDL_UnlockSurface(sur);
 }
+
 int PixelArr::getW()
 {
     return sur->w;
 }
+
 int PixelArr::getH()
 {
     return sur->h;
-}
-void PixelArr::loadPicture(char* path)
-{
-    SDL_FreeSurface(sur);
-    sur=IMG_Load(path);
-    if (!sur){
-        cout<<"Error creating surface"<<endl;
-        SDL_Quit();
-        exit(1);
-    }
-}
-void PixelArr::monochrome()
-{
-    for(int x = 0;x<getW();x++)
-    {
-        for(int y = 0;y<getH();y++)
-        {
-            getrgb(x,y);
-            Uint8 newval=0.299*r+0.587*g+0.114*b;
-            setrgb(newval,newval,newval,x,y);
-        }
-    }
 }
 
 Uint32 PixelArr::getpixel(int x, int y)
@@ -113,7 +85,7 @@ short PixelArr::getValue(int x, int y)
     else{return 1;}
 }
 
-void PixelArr::setvalue(int x, int y, short value)
+void PixelArr::setValue(int x, int y, short value)
 {
     Uint8 newVal;
     if ( value == 0 ){
@@ -145,10 +117,12 @@ void PixelArr::loadPicturetxt(string path)
     {
         infile>>dim[0]>>dim[1];
     }
+    cout<<dim[0]<<" "<<dim[1]<<endl;
     short tab[dim[0]][dim[1]];
     int x=0,y=-1;
     while(getline(infile,line))
     {
+        
         stringstream ss(line);
         if(y>=0)
         {
@@ -173,12 +147,12 @@ void PixelArr::loadPicturetxt(string path)
         bmask = 0x00FF0000;
         amask = 0xFF000000;
     #endif
-    sur = SDL_CreateRGBSurface(0,dim[1],dim[0],32,rmask, gmask,bmask,amask);
-    for(int nx=0;nx<dim[0];nx++)
+    sur = SDL_CreateRGBSurface(0,dim[0],dim[1],32,rmask, gmask,bmask,amask);
+    for(int ny=0;ny<dim[1];ny++)
     {
-        for(int ny=0;ny<dim[1];ny++)
+        for(int nx=0;nx<dim[0];nx++)
         {
-            setvalue(nx,ny,tab[nx][ny]);        }
+            setValue(nx,ny,tab[nx][ny]);        }
     }
 }
 
@@ -294,7 +268,7 @@ void PixelArr::erosion(string path)
                     for (int j = 0 ; j < dim[1] ; j++)
                     {
                         int ny = y - (mid[1]-j)+1;
-                        if ((ny<0 || ny>=getH())||(tab[i][j]==1 && getValue(nx,ny))==0)
+                        if ((ny<0 || ny>=getH())||(tab[i][j]==1 && getValue(nx,ny)==0))
                         {
                             temp[x][y]=0;
                             done = true;
@@ -325,7 +299,65 @@ void PixelArr::close(std::string path)
     erosion(path);
 }
 
+void PixelArr::save()
+{
+    if(SDL_SaveBMP(sur,"output.bmp")!=0)
+    {
+        cout<<"SDL_SaveBMP failed "<<SDL_GetError()<<endl;
+    }
+    ofstream outfile;
+    outfile.open("output.txt",ios::out);
+    outfile<<sur->w<<"    "<<sur->h<<endl;
+    for(int y=0;y<sur->h;y++){
+        for(int x=0;x<sur->w;x++){
+            outfile<<getValue(x,y)<<"    ";
+        }
+        outfile<<endl;
+    }
+    outfile.close();
+}
 
+void PixelArr::conture(string path)
+{
+    int temp[getW()][getH()];
+    for (int x=0;x<getW();x++){
+        for(int y=0;y<getH();y++){
+            temp[x][y]=getValue(x,y);
+        }
+    }
+    dilation(path);
+    for (int x=0;x<getW();x++){
+        for(int y=0;y<getH();y++){
+            if(temp[x][y]==1){
+                setValue(x,y,0);
+            }
+        }
+    }
+}
+void PixelArr::vflip()
+{
+    for(int ny=0;ny<getH()/2;ny++)
+    {
+        for(int nx=0;nx<getW();nx++)
+        {
+            short temp = getValue(nx,ny);
+            setValue(nx,ny,getValue(nx,getH()-ny-1));
+            setValue(nx,getH()-ny-1,temp);
+        }
+    }
+}
+void PixelArr::hflip()
+{
+    for(int nx=0;nx<getW()/2;nx++)
+    {
+        for(int ny=0;ny<getH();ny++)
+        {
+            short temp = getValue(nx,ny);
+            setValue(nx,ny,getValue(getW()-nx-1,ny));
+            setValue(getW()-nx-1,ny,temp);
+        }
+    }
+}
 
 
 PixelArr::~PixelArr()

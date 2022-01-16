@@ -1,0 +1,123 @@
+\hypertarget{classTextures}{}\doxysection{Textures Class Reference}
+\label{classTextures}\index{Textures@{Textures}}
+
+
+{\ttfamily \#include $<$Textures.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classTextures_a43eceaf4fb6fa052e1c41cebb7b18189}{Textures}} ()
+\item 
+void \mbox{\hyperlink{classTextures_a0fc01556185a19e1041aa24d47999790}{set\+Window}} (\mbox{\hyperlink{classWindow}{Window}} $\ast$wind)
+\item 
+void \mbox{\hyperlink{classTextures_a6ada7d93e2d826601e08cbc9a7f97c4e}{include}} (string name, SDL\+\_\+\+Surface $\ast$sur)
+\item 
+SDL\+\_\+\+Texture $\ast$ \mbox{\hyperlink{classTextures_a79d77b8ba15a8293c066f92f46cca1b4}{get\+Texture}} (string name)
+\item 
+void \mbox{\hyperlink{classTextures_a5659419043734578510a5b1c4aa29788}{update}} (string name, SDL\+\_\+\+Surface $\ast$sur)
+\item 
+\mbox{\hyperlink{classTextures_aa1480566dae8b3a6de5e6c98d9fdc225}{$\sim$\+Textures}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+map$<$ string, SDL\+\_\+\+Texture $\ast$ $>$ \mbox{\hyperlink{classTextures_aa0ed1de0b0694953412306439f1fafb4}{tex}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class storing textures way they can be iterated 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classTextures_a43eceaf4fb6fa052e1c41cebb7b18189}\label{classTextures_a43eceaf4fb6fa052e1c41cebb7b18189}} 
+\index{Textures@{Textures}!Textures@{Textures}}
+\index{Textures@{Textures}!Textures@{Textures}}
+\doxysubsubsection{\texorpdfstring{Textures()}{Textures()}}
+{\footnotesize\ttfamily Textures\+::\+Textures (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Constructor of the class \mbox{\Hypertarget{classTextures_aa1480566dae8b3a6de5e6c98d9fdc225}\label{classTextures_aa1480566dae8b3a6de5e6c98d9fdc225}} 
+\index{Textures@{Textures}!````~Textures@{$\sim$Textures}}
+\index{````~Textures@{$\sim$Textures}!Textures@{Textures}}
+\doxysubsubsection{\texorpdfstring{$\sim$Textures()}{~Textures()}}
+{\footnotesize\ttfamily Textures\+::$\sim$\+Textures (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Destrucor of the class
+
+Destroys all textures inside 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classTextures_a79d77b8ba15a8293c066f92f46cca1b4}\label{classTextures_a79d77b8ba15a8293c066f92f46cca1b4}} 
+\index{Textures@{Textures}!getTexture@{getTexture}}
+\index{getTexture@{getTexture}!Textures@{Textures}}
+\doxysubsubsection{\texorpdfstring{getTexture()}{getTexture()}}
+{\footnotesize\ttfamily SDL\+\_\+\+Texture $\ast$ Textures\+::get\+Texture (\begin{DoxyParamCaption}\item[{string}]{name }\end{DoxyParamCaption})}
+
+Allows to get access to the stored texture
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Identificator of the texture \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Texture with chosen identificator 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classTextures_a6ada7d93e2d826601e08cbc9a7f97c4e}\label{classTextures_a6ada7d93e2d826601e08cbc9a7f97c4e}} 
+\index{Textures@{Textures}!include@{include}}
+\index{include@{include}!Textures@{Textures}}
+\doxysubsubsection{\texorpdfstring{include()}{include()}}
+{\footnotesize\ttfamily void Textures\+::include (\begin{DoxyParamCaption}\item[{string}]{name,  }\item[{SDL\+\_\+\+Surface $\ast$}]{sur }\end{DoxyParamCaption})}
+
+Adds new texture to the container
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Identificator of the texture. Allows to access the texture \\
+\hline
+{\em sur} & Surface with the picture to be turned into texture and to be stored in the container \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classTextures_a0fc01556185a19e1041aa24d47999790}\label{classTextures_a0fc01556185a19e1041aa24d47999790}} 
+\index{Textures@{Textures}!setWindow@{setWindow}}
+\index{setWindow@{setWindow}!Textures@{Textures}}
+\doxysubsubsection{\texorpdfstring{setWindow()}{setWindow()}}
+{\footnotesize\ttfamily void Textures\+::set\+Window (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classWindow}{Window}} $\ast$}]{wind }\end{DoxyParamCaption})}
+
+Sets window textures are going to be used on
+
+
+\begin{DoxyParams}{Parameters}
+{\em wind} & Object of class window that will be using textures saved in object of this class \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classTextures_a5659419043734578510a5b1c4aa29788}\label{classTextures_a5659419043734578510a5b1c4aa29788}} 
+\index{Textures@{Textures}!update@{update}}
+\index{update@{update}!Textures@{Textures}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Textures\+::update (\begin{DoxyParamCaption}\item[{string}]{name,  }\item[{SDL\+\_\+\+Surface $\ast$}]{sur }\end{DoxyParamCaption})}
+
+Replaces texture with given identificator with different one
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Identificator of the texture to be updated \\
+\hline
+{\em sur} & Surface to be turned into texture and replace old one \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classTextures_aa0ed1de0b0694953412306439f1fafb4}\label{classTextures_aa0ed1de0b0694953412306439f1fafb4}} 
+\index{Textures@{Textures}!tex@{tex}}
+\index{tex@{tex}!Textures@{Textures}}
+\doxysubsubsection{\texorpdfstring{tex}{tex}}
+{\footnotesize\ttfamily map$<$string,SDL\+\_\+\+Texture$\ast$$>$ Textures\+::tex}
+
+Container with textures and their identificators. Can be iterated 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{Textures_8h}{Textures.\+h}}\item 
+\mbox{\hyperlink{Textures_8cpp}{Textures.\+cpp}}\end{DoxyCompactItemize}

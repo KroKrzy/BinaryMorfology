@@ -1,14 +1,14 @@
 cc := g++
 
-CFLAGS := `sdl2-config --libs --cflags` -g -ggdb -ggdb3 -O0 --std=c++11 -Wall -lstdc++ -lSDL2_image -lm
+CFLAGS := `sdl2-config --libs --cflags` -g -ggdb -ggdb3 -O0 --std=c++14 -Wall -lstdc++ -lstdc++fs -lSDL2_image -lSDL2_ttf -lm
 
-HDRS := PixelArr.h
+HDRS := PixelArr.h Textures.h Window.h
 
-SRCS := main.cpp PixelArr.cpp
+SRCS := main.cpp PixelArr.cpp Textures.cpp Window.cpp
 
 OBJS := $(SRCS:.cpp=.o)
 
-EXEC := test
+EXEC := app
 
 all: $(EXEC)
 

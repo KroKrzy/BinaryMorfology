@@ -1,0 +1,135 @@
+\hypertarget{classWindow}{}\doxysection{Window Class Reference}
+\label{classWindow}\index{Window@{Window}}
+
+
+{\ttfamily \#include $<$Window.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classWindow_a9cadec13007d2df4ae875ff35d4124c4}{Window}} (int w, int h, const char $\ast$name)
+\item 
+void \mbox{\hyperlink{classWindow_a7d4b50f3adf6374c321502cb05a11e02}{put\+On\+Rend}} (SDL\+\_\+\+Texture $\ast$tex, SDL\+\_\+\+Rect rect)
+\item 
+void \mbox{\hyperlink{classWindow_aaef42881e90ea2b8ea7dd887a27a64ca}{refr\+Rend}} ()
+\item 
+void \mbox{\hyperlink{classWindow_a562aa625e910a91afa64a37e7b38c5fc}{rend\+Show}} ()
+\item 
+void \mbox{\hyperlink{classWindow_a3f1c5ba0d380191367cf04bc33907313}{deletewin}} ()
+\item 
+void \mbox{\hyperlink{classWindow_ab884dff0f59b07e24338e8b0848fc32e}{makenew}} (int w, int h, const char $\ast$name)
+\item 
+\mbox{\hyperlink{classWindow_a245d821e6016fa1f6970ccbbedd635f6}{$\sim$\+Window}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+SDL\+\_\+\+Window $\ast$ \mbox{\hyperlink{classWindow_ac3da20b3aca48dab0ee68c539d39f0c8}{win}}
+\item 
+SDL\+\_\+\+Renderer $\ast$ \mbox{\hyperlink{classWindow_a08e55cc24bbe268b1361874a7621a3b2}{rend}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class responsible for displaying pictures in window 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classWindow_a9cadec13007d2df4ae875ff35d4124c4}\label{classWindow_a9cadec13007d2df4ae875ff35d4124c4}} 
+\index{Window@{Window}!Window@{Window}}
+\index{Window@{Window}!Window@{Window}}
+\doxysubsubsection{\texorpdfstring{Window()}{Window()}}
+{\footnotesize\ttfamily Window\+::\+Window (\begin{DoxyParamCaption}\item[{int}]{w,  }\item[{int}]{h,  }\item[{const char $\ast$}]{name }\end{DoxyParamCaption})}
+
+Constructor of the class. Creates new window
+
+
+\begin{DoxyParams}{Parameters}
+{\em w} & Width of the new window in pixels \\
+\hline
+{\em h} & Heigth of the new window in pixels \\
+\hline
+{\em name} & Name of the new window displayed on the bar \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classWindow_a245d821e6016fa1f6970ccbbedd635f6}\label{classWindow_a245d821e6016fa1f6970ccbbedd635f6}} 
+\index{Window@{Window}!````~Window@{$\sim$Window}}
+\index{````~Window@{$\sim$Window}!Window@{Window}}
+\doxysubsubsection{\texorpdfstring{$\sim$Window()}{~Window()}}
+{\footnotesize\ttfamily Window\+::$\sim$\+Window (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Destructor of the class
+
+Deletes window and closes SDL 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classWindow_a3f1c5ba0d380191367cf04bc33907313}\label{classWindow_a3f1c5ba0d380191367cf04bc33907313}} 
+\index{Window@{Window}!deletewin@{deletewin}}
+\index{deletewin@{deletewin}!Window@{Window}}
+\doxysubsubsection{\texorpdfstring{deletewin()}{deletewin()}}
+{\footnotesize\ttfamily void Window\+::deletewin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Deletes current window \mbox{\Hypertarget{classWindow_ab884dff0f59b07e24338e8b0848fc32e}\label{classWindow_ab884dff0f59b07e24338e8b0848fc32e}} 
+\index{Window@{Window}!makenew@{makenew}}
+\index{makenew@{makenew}!Window@{Window}}
+\doxysubsubsection{\texorpdfstring{makenew()}{makenew()}}
+{\footnotesize\ttfamily void Window\+::makenew (\begin{DoxyParamCaption}\item[{int}]{w,  }\item[{int}]{h,  }\item[{const char $\ast$}]{name }\end{DoxyParamCaption})}
+
+Creates new window and initializes SDL
+
+
+\begin{DoxyParams}{Parameters}
+{\em w} & Width of the new window \\
+\hline
+{\em h} & Heigth of the new window \\
+\hline
+{\em name} & Name of the new window displayed on the bar \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classWindow_a7d4b50f3adf6374c321502cb05a11e02}\label{classWindow_a7d4b50f3adf6374c321502cb05a11e02}} 
+\index{Window@{Window}!putOnRend@{putOnRend}}
+\index{putOnRend@{putOnRend}!Window@{Window}}
+\doxysubsubsection{\texorpdfstring{putOnRend()}{putOnRend()}}
+{\footnotesize\ttfamily void Window\+::put\+On\+Rend (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Texture $\ast$}]{tex,  }\item[{SDL\+\_\+\+Rect}]{rect }\end{DoxyParamCaption})}
+
+Playes texture on the renderer to be displayed
+
+
+\begin{DoxyParams}{Parameters}
+{\em tex} & Texture to be displayed \\
+\hline
+{\em rect} & Structure containing informations about position and size of the texture on the renderer \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classWindow_aaef42881e90ea2b8ea7dd887a27a64ca}\label{classWindow_aaef42881e90ea2b8ea7dd887a27a64ca}} 
+\index{Window@{Window}!refrRend@{refrRend}}
+\index{refrRend@{refrRend}!Window@{Window}}
+\doxysubsubsection{\texorpdfstring{refrRend()}{refrRend()}}
+{\footnotesize\ttfamily void Window\+::refr\+Rend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Refreshes displayed renderer with changes made after last display \mbox{\Hypertarget{classWindow_a562aa625e910a91afa64a37e7b38c5fc}\label{classWindow_a562aa625e910a91afa64a37e7b38c5fc}} 
+\index{Window@{Window}!rendShow@{rendShow}}
+\index{rendShow@{rendShow}!Window@{Window}}
+\doxysubsubsection{\texorpdfstring{rendShow()}{rendShow()}}
+{\footnotesize\ttfamily void Window\+::rend\+Show (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Puts current state of the renderer in the window 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classWindow_a08e55cc24bbe268b1361874a7621a3b2}\label{classWindow_a08e55cc24bbe268b1361874a7621a3b2}} 
+\index{Window@{Window}!rend@{rend}}
+\index{rend@{rend}!Window@{Window}}
+\doxysubsubsection{\texorpdfstring{rend}{rend}}
+{\footnotesize\ttfamily SDL\+\_\+\+Renderer$\ast$ Window\+::rend}
+
+Renderer. It\textquotesingle{}s what is shown in window \mbox{\Hypertarget{classWindow_ac3da20b3aca48dab0ee68c539d39f0c8}\label{classWindow_ac3da20b3aca48dab0ee68c539d39f0c8}} 
+\index{Window@{Window}!win@{win}}
+\index{win@{win}!Window@{Window}}
+\doxysubsubsection{\texorpdfstring{win}{win}}
+{\footnotesize\ttfamily SDL\+\_\+\+Window$\ast$ Window\+::win}
+
+\mbox{\hyperlink{classWindow}{Window}} itself 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{Window_8h}{Window.\+h}}\item 
+\mbox{\hyperlink{Window_8cpp}{Window.\+cpp}}\end{DoxyCompactItemize}
