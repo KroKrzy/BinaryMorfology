@@ -4,20 +4,29 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <algorithm>
+#include <fstream>
 #include <experimental/filesystem>
 namespace fs = std::experimental::filesystem;
 
 #include "Textures.h"
 #include "Window.h"
 #include "PixelArr.h"
+#include <experimental/filesystem>
 
 
 using namespace std;
 
 
-
+/**
+ * Main function of the program
+ * 
+ * Calls methods of the other classes
+ * 
+ * Manages user interface
+ */
 int main(){
     TTF_Init();
+    open:
     Window win = Window(10,10,"Binary Morfology");
     Textures pictures = Textures();
     pictures.setWindow(&win);
@@ -101,25 +110,43 @@ int main(){
     }
     
     PixelArr pic=PixelArr();
+    if(chosenpic.substr(chosenpic.length()-4)==".txt"){
     pic.loadPicturetxt(chosenpic);
+    }
+    else{
+        pic.loadPictureGrp(chosenpic);
+        pic.savetxt("./temp/1.txt");
+        pic.loadPicturetxt("./temp/1.txt");
+    }
     Textures workfiles = Textures();
     workfiles.setWindow(&win);
     workfiles.include("old",pic.sur);
     workfiles.include("new",pic.sur);
-    workfiles.include("bake",TTF_RenderText_Solid(Arimo,"bake",White));
-    workfiles.include("save",TTF_RenderText_Solid(Arimo,"save",White));
+    workfiles.include("bake",TTF_RenderText_Solid(Arimo,"Bake",White));
+    workfiles.include("save",TTF_RenderText_Solid(Arimo,"Save",White));
     workfiles.include("*",TTF_RenderText_Solid(Arimo,"*",White));
-    SDL_SetWindowSize(win.win,530,530);
+    workfiles.include("undo",TTF_RenderText_Solid(Arimo,"Undo",White));
+    workfiles.include("redo",TTF_RenderText_Solid(Arimo,"Redo",White));
+    workfiles.include("open",TTF_RenderText_Solid(Arimo,"Open",White));
+    workfiles.include("comm",TTF_RenderText_Solid(Arimo," ",White));
+    SDL_SetWindowSize(win.win,530,600);
     SDL_SetRenderDrawColor(win.rend,125,125,125,255);
     close_requested=false;
     bool bake=false;
     bool bakedone=true;
+    bool action=true;
+    bool open=false;
+    string logac="";
     string chosenac;
     int chosenacsym=-1;
     const char* chosenstruc;
     int chosenstrucsym=-1;
     int picW=pic.getW();
     int picH=pic.getH();
+    ofstream outfile;
+    int iterator = 0;
+    int maxredo = 0;
+    outfile.open("./output/log.txt");
     if (picW>picH)
     {
         picH=250*(float(picH)/float(picW));
@@ -141,49 +168,73 @@ int main(){
         {
             if (event.type == SDL_QUIT)close_requested=true;
         }
-        if(bake&&bakedone){
+        SDL_SetRenderDrawColor(win.rend,0,0,0,255);
+        rect.x=10;
+        rect.y=560;
+        rect.w=510;
+        rect.h=30;
+        SDL_RenderFillRect(win.rend,&rect);
+        SDL_SetRenderDrawColor(win.rend,125,125,125,255);
+        if(bake&&bakedone&&!open){
             bake=false;
             bakedone=false;
             try{
                 if(chosenac=="dil"){
-                    workfiles.update("old",pic.sur);
                     pic.dilation(chosenstruc);
                     workfiles.update("new",pic.sur);
+                    logac="dilation "+string(chosenstruc);
                 }
                 else if(chosenac=="er"){
-                    workfiles.update("old",pic.sur);
                     pic.erosion(chosenstruc);
                     workfiles.update("new",pic.sur);
+                    logac="erosion "+string(chosenstruc);
                 }
                 else if(chosenac=="op"){
-                    workfiles.update("old",pic.sur);
                     pic.open(chosenstruc);
                     workfiles.update("new",pic.sur);
+                    logac="opening "+string(chosenstruc);
                 }
                 else if(chosenac=="cl"){
-                    workfiles.update("old",pic.sur);
                     pic.close(chosenstruc);
                     workfiles.update("new",pic.sur);
+                    logac="closing "+string(chosenstruc);
                 }
                 else if(chosenac=="co"){
-                    workfiles.update("old",pic.sur);
                     pic.conture(chosenstruc);
                     workfiles.update("new",pic.sur);
+                    logac="conture "+string(chosenstruc);
                 }
                 else if(chosenac=="vf"){
-                    workfiles.update("old",pic.sur);
                     pic.vflip();
                     workfiles.update("new",pic.sur);
+                    logac="vertical flip";
                 }
                 else if(chosenac=="hf"){
-                    workfiles.update("old",pic.sur);
                     pic.hflip();
                     workfiles.update("new",pic.sur);
+                    logac="horizontal flip";
                 }
+                action =true;
             }
-            catch(...){cout<<"No structural object chosen"<<endl;}
+            catch(...){
+                workfiles.update("comm",TTF_RenderText_Solid(Arimo,"No structural object chosen",White));
+            }
             bakedone=true;
         }
+        if (open){
+            workfiles.update("comm",TTF_RenderText_Solid(Arimo,"YES     Are you sure?     NO",White));
+            SDL_QueryTexture(workfiles.getTexture("comm"),NULL,NULL,&rect.w,&rect.h);
+            rect.x=(530-rect.w)/2;
+            rect.y = 560;
+            win.putOnRend(workfiles.getTexture("comm"),rect);
+        }
+        else{
+            rect.x=15;
+            rect.y=560;
+            SDL_QueryTexture(workfiles.getTexture("comm"),NULL,NULL,&rect.w,&rect.h);
+            win.putOnRend(workfiles.getTexture("comm"),rect);
+        }
+        
         rect.w=picW;
         rect.h=picH;
         rect.x=10;
@@ -210,10 +261,21 @@ int main(){
             i++;
         }
         SDL_QueryTexture(workfiles.getTexture("save"),NULL,NULL,&rect.w,&rect.h);
-        rect.x=270;
+        rect.x=450;
         rect.y=500;
         win.putOnRend(workfiles.getTexture("save"),rect);
+        SDL_QueryTexture(workfiles.getTexture("undo"),NULL,NULL,&rect.w,&rect.h);
+        rect.x=10;
+        rect.y=530;
+        win.putOnRend(workfiles.getTexture("undo"),rect);
+        SDL_QueryTexture(workfiles.getTexture("redo"),NULL,NULL,&rect.w,&rect.h);
+        rect.x=235;
+        win.putOnRend(workfiles.getTexture("redo"),rect);
+        SDL_QueryTexture(workfiles.getTexture("open"),NULL,NULL,&rect.w,&rect.h);
+        rect.x=450;
+        win.putOnRend(workfiles.getTexture("open"),rect);
         i=0;
+        rect.x=270;
         for(it=struc.tex.begin();it!=struc.tex.end();it++)
         {
             SDL_QueryTexture(it->second,NULL,NULL,&rect.w,&rect.h);
@@ -261,20 +323,76 @@ int main(){
                     }
                 }
             }
-            else{
+            else if(mousey<530){
                 if(mousex<265){
                     bake=true;
+                    
                     SDL_Delay(200);
                 }
                 else{
                     pic.save();
+                    workfiles.update("comm",TTF_RenderText_Solid(Arimo,"State saved",White));
                 }
             }
+            else if(mousey<560){
+                if (mousex<177){
+                    if(iterator>0){
+                        pic.loadPicturetxt("./temp/"+to_string(--iterator)+".txt");
+                        workfiles.update("new",pic.sur);
+                        SDL_Delay(200);
+                        logac = "undo";
+                        outfile<<logac<<endl;
+                    }
+                    else{workfiles.update("comm",TTF_RenderText_Solid(Arimo,"Nothing to undo",White));}
+                }
+                else if(mousex<354){
+                    if(iterator<maxredo)
+                    {
+                        pic.loadPicturetxt("./temp/"+to_string(++iterator)+".txt");
+                        workfiles.update("new",pic.sur);
+                        SDL_Delay(200);
+                        logac = "redo";
+                        outfile<<logac<<endl;
+                    }
+                    else{workfiles.update("comm",TTF_RenderText_Solid(Arimo,"Nothing to redo",White));}
+                }
+                else{
+                    open=true;
+                }
+            }
+            else{
+                if(open){
+                    if(mousex<265){
+                        win.deletewin();
+                        outfile.close();
+                        goto open;
+                        
+                    }
+                    else{
+                        open=false;
+                        workfiles.update("comm",TTF_RenderText_Solid(Arimo," ",White));
+                    }
+                }
+            }
+        }
+        if(action)
+        {
+            outfile<<logac<<endl;
+            action =false;
+            pic.savetxt(("./temp/"+to_string(iterator)+".txt").c_str());
+            workfiles.update("comm",TTF_RenderText_Solid(Arimo," ",White));
+            maxredo = iterator;
+            iterator++;
         }
         win.rendShow();
         win.refrRend();
     }
-    
+    path="./temp";
+    for (const auto & entry : fs::directory_iterator(path))
+    {
+        std::experimental::filesystem::remove_all(entry.path());
+    }
+    outfile.close();
     TTF_Quit();
     return 0;
 }

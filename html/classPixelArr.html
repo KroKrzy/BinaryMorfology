@@ -92,6 +92,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a21fedd7f14124102dcabd407a88e41cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaac6adc378a40183c42906522c26aa37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPixelArr.html#aaac6adc378a40183c42906522c26aa37">loadPicturetxt</a> (string path)</td></tr>
 <tr class="separator:aaac6adc378a40183c42906522c26aa37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89b0ae2777b4e178cb5b39535ab0cc17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPixelArr.html#a89b0ae2777b4e178cb5b39535ab0cc17">loadPictureGrp</a> (string path)</td></tr>
+<tr class="separator:a89b0ae2777b4e178cb5b39535ab0cc17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bd1026f7d53f37c7dd00533bff9661a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPixelArr.html#a1bd1026f7d53f37c7dd00533bff9661a">dilation</a> (string path)</td></tr>
 <tr class="separator:a1bd1026f7d53f37c7dd00533bff9661a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad25e944de6cfc26a69b2cd81f8f81642"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPixelArr.html#ad25e944de6cfc26a69b2cd81f8f81642">erosion</a> (string path)</td></tr>
@@ -102,6 +104,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5f0e20b8bf465c093ff0276a55fea483"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85103d8c8c31437b7999a1868c25f26e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPixelArr.html#a85103d8c8c31437b7999a1868c25f26e">save</a> ()</td></tr>
 <tr class="separator:a85103d8c8c31437b7999a1868c25f26e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbd66573448cb014faeb1f25e87b10b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPixelArr.html#abbd66573448cb014faeb1f25e87b10b4">savetxt</a> (string path)</td></tr>
+<tr class="separator:abbd66573448cb014faeb1f25e87b10b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac795d4c2ec7bc665372352c00b810687"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPixelArr.html#ac795d4c2ec7bc665372352c00b810687">conture</a> (string path)</td></tr>
 <tr class="separator:ac795d4c2ec7bc665372352c00b810687"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26c16b2440ce16d3a7c15752eed4973a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPixelArr.html#a26c16b2440ce16d3a7c15752eed4973a">vflip</a> ()</td></tr>
@@ -417,6 +421,32 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a89b0ae2777b4e178cb5b39535ab0cc17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89b0ae2777b4e178cb5b39535ab0cc17">&#9670;&nbsp;</a></span>loadPictureGrp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PixelArr::loadPictureGrp </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Load picture from graphic file like .png .jpg or other</p>
+<p>Picture needs to be reloaded by saving in text form and then loaded using loadPicturetxt</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Path to the file </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aaac6adc378a40183c42906522c26aa37"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaac6adc378a40183c42906522c26aa37">&#9670;&nbsp;</a></span>loadPicturetxt()</h2>
 
@@ -490,6 +520,31 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Saving current state of the picture as output.bmp and output.txt files</p>
 <p>Files are being saved in main folder of the app </p>
+
+</div>
+</div>
+<a id="abbd66573448cb014faeb1f25e87b10b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbd66573448cb014faeb1f25e87b10b4">&#9670;&nbsp;</a></span>savetxt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PixelArr::savetxt </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Saving current state as .txt in chosen location</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Path to place to save the file </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

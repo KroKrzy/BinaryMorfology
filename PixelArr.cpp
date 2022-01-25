@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <cmath>
 #include <fstream>
 #include <sstream>
 
@@ -12,6 +13,7 @@ using namespace std;
 
 PixelArr::PixelArr()
 {
+    IMG_Init(IMG_INIT_JPG|IMG_INIT_PNG);
     Uint32 rmask,gmask,bmask,amask;
     #if SDL_BYTEORDER == SDL_BIG_ENDIAN
         rmask = 0xFF000000;
@@ -117,7 +119,6 @@ void PixelArr::loadPicturetxt(string path)
     {
         infile>>dim[0]>>dim[1];
     }
-    cout<<dim[0]<<" "<<dim[1]<<endl;
     short tab[dim[0]][dim[1]];
     int x=0,y=-1;
     while(getline(infile,line))
@@ -153,6 +154,15 @@ void PixelArr::loadPicturetxt(string path)
         for(int nx=0;nx<dim[0];nx++)
         {
             setValue(nx,ny,tab[nx][ny]);        }
+    }
+}
+void PixelArr::loadPictureGrp(std::string path)
+{
+    SDL_FreeSurface(sur);
+    sur = IMG_Load(path.c_str());
+    if(!sur){
+        cout<<"Error creating surface";
+        exit(1);
     }
 }
 
@@ -301,12 +311,18 @@ void PixelArr::close(std::string path)
 
 void PixelArr::save()
 {
-    if(SDL_SaveBMP(sur,"output.bmp")!=0)
+    if(SDL_SaveBMP(sur,"./output/output.bmp")!=0)
     {
         cout<<"SDL_SaveBMP failed "<<SDL_GetError()<<endl;
     }
+    savetxt("./output/output.txt");
+    
+}
+
+void PixelArr::savetxt(std::string path)
+{
     ofstream outfile;
-    outfile.open("output.txt",ios::out);
+    outfile.open(path,ios::out);
     outfile<<sur->w<<"    "<<sur->h<<endl;
     for(int y=0;y<sur->h;y++){
         for(int x=0;x<sur->w;x++){
@@ -316,6 +332,7 @@ void PixelArr::save()
     }
     outfile.close();
 }
+
 
 void PixelArr::conture(string path)
 {
@@ -363,6 +380,7 @@ void PixelArr::hflip()
 PixelArr::~PixelArr()
 {
     SDL_FreeSurface(sur);
+    IMG_Quit();
 }
 
 

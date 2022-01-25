@@ -89,6 +89,14 @@ public:
      */
     void loadPicturetxt(string path);
     /**
+     * Load picture from graphic file like .png .jpg or other
+     * 
+     * Picture needs to be reloaded by saving in text form and then loaded using loadPicturetxt
+     * 
+     * @param path Path to the file
+     */
+    void loadPictureGrp(string path);
+    /**
      * Operation of dilation on the picture using given structured object
      * 
      * Structured Object is saved in .txt file and needs to follow the format:
@@ -142,6 +150,12 @@ public:
      * Files are being saved in main folder of the app
      */
     void save();
+    /**
+     * Saving current state as .txt in chosen location
+     * 
+     * @param path Path to place to save the file
+     */
+    void savetxt(string path);
     /**
      * Turn objects on the picture into conture using structuring element
      * 

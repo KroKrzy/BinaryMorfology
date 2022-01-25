@@ -25,6 +25,8 @@ void \mbox{\hyperlink{classPixelArr_a21fedd7f14124102dcabd407a88e41cb}{setrgb}} 
 \item 
 void \mbox{\hyperlink{classPixelArr_aaac6adc378a40183c42906522c26aa37}{load\+Picturetxt}} (string path)
 \item 
+void \mbox{\hyperlink{classPixelArr_a89b0ae2777b4e178cb5b39535ab0cc17}{load\+Picture\+Grp}} (string path)
+\item 
 void \mbox{\hyperlink{classPixelArr_a1bd1026f7d53f37c7dd00533bff9661a}{dilation}} (string path)
 \item 
 void \mbox{\hyperlink{classPixelArr_ad25e944de6cfc26a69b2cd81f8f81642}{erosion}} (string path)
@@ -34,6 +36,8 @@ void \mbox{\hyperlink{classPixelArr_a9105ce5498fd073fdad3c8b7d5e02536}{open}} (s
 void \mbox{\hyperlink{classPixelArr_a5f0e20b8bf465c093ff0276a55fea483}{close}} (string path)
 \item 
 void \mbox{\hyperlink{classPixelArr_a85103d8c8c31437b7999a1868c25f26e}{save}} ()
+\item 
+void \mbox{\hyperlink{classPixelArr_abbd66573448cb014faeb1f25e87b10b4}{savetxt}} (string path)
 \item 
 void \mbox{\hyperlink{classPixelArr_ac795d4c2ec7bc665372352c00b810687}{conture}} (string path)
 \item 
@@ -219,7 +223,22 @@ width of the picture in pixels
 \doxysubsubsection{\texorpdfstring{hflip()}{hflip()}}
 {\footnotesize\ttfamily void Pixel\+Arr\+::hflip (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Horizontal flip of the picture \mbox{\Hypertarget{classPixelArr_aaac6adc378a40183c42906522c26aa37}\label{classPixelArr_aaac6adc378a40183c42906522c26aa37}} 
+Horizontal flip of the picture \mbox{\Hypertarget{classPixelArr_a89b0ae2777b4e178cb5b39535ab0cc17}\label{classPixelArr_a89b0ae2777b4e178cb5b39535ab0cc17}} 
+\index{PixelArr@{PixelArr}!loadPictureGrp@{loadPictureGrp}}
+\index{loadPictureGrp@{loadPictureGrp}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{loadPictureGrp()}{loadPictureGrp()}}
+{\footnotesize\ttfamily void Pixel\+Arr\+::load\+Picture\+Grp (\begin{DoxyParamCaption}\item[{string}]{path }\end{DoxyParamCaption})}
+
+Load picture from graphic file like .png .jpg or other
+
+Picture needs to be reloaded by saving in text form and then loaded using load\+Picturetxt
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Path to the file \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPixelArr_aaac6adc378a40183c42906522c26aa37}\label{classPixelArr_aaac6adc378a40183c42906522c26aa37}} 
 \index{PixelArr@{PixelArr}!loadPicturetxt@{loadPicturetxt}}
 \index{loadPicturetxt@{loadPicturetxt}!PixelArr@{PixelArr}}
 \doxysubsubsection{\texorpdfstring{loadPicturetxt()}{loadPicturetxt()}}
@@ -267,7 +286,20 @@ rest of the file\+: (1st value in the row) (2nd value in the row) ... (last valu
 
 Saving current state of the picture as output.\+bmp and output.\+txt files
 
-Files are being saved in main folder of the app \mbox{\Hypertarget{classPixelArr_a21fedd7f14124102dcabd407a88e41cb}\label{classPixelArr_a21fedd7f14124102dcabd407a88e41cb}} 
+Files are being saved in main folder of the app \mbox{\Hypertarget{classPixelArr_abbd66573448cb014faeb1f25e87b10b4}\label{classPixelArr_abbd66573448cb014faeb1f25e87b10b4}} 
+\index{PixelArr@{PixelArr}!savetxt@{savetxt}}
+\index{savetxt@{savetxt}!PixelArr@{PixelArr}}
+\doxysubsubsection{\texorpdfstring{savetxt()}{savetxt()}}
+{\footnotesize\ttfamily void Pixel\+Arr\+::savetxt (\begin{DoxyParamCaption}\item[{string}]{path }\end{DoxyParamCaption})}
+
+Saving current state as .txt in chosen location
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Path to place to save the file \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPixelArr_a21fedd7f14124102dcabd407a88e41cb}\label{classPixelArr_a21fedd7f14124102dcabd407a88e41cb}} 
 \index{PixelArr@{PixelArr}!setrgb@{setrgb}}
 \index{setrgb@{setrgb}!PixelArr@{PixelArr}}
 \doxysubsubsection{\texorpdfstring{setrgb()}{setrgb()}}
