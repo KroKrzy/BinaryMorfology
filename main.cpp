@@ -57,7 +57,8 @@ int main(){
         {
             if(event.type==SDL_QUIT)
             {
-                close_requested=true;
+                TTF_Quit();
+                return 0;
             }
         }
         int i=0;
